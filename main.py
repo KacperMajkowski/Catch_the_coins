@@ -3,10 +3,17 @@ import numpy as np
 
 from gameplayFunctions import *
 from gameParameters import *
+from gameWindow import *
+from qLearning import *
 
+updateWindow()
 for turn in range(TURNS):
     moveCoins()
-    createNewCoins(50)
+    changePlayerPos()
+    movePlayer()
+    print(qLearning.pointsGottenForTheMove)
+    createNewCoins(20)
     print(board)
-    time.sleep(1)
+    updateWindow()
+    time.sleep(0.1)
     
