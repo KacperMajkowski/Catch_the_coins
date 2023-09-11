@@ -36,9 +36,8 @@ def clearScreen():
     
     
 def drawPlayer():
-    # screen.blit(player, (gameParameters.playerPos * BLOCK, HEIGHT - BLOCK))
-    pygame.draw.rect(screen, 'Green', pygame.Rect(gameParameters.playerPos * BLOCK,
-                                                  HEIGHT - BLOCK,
+    pygame.draw.rect(screen, 'Green', pygame.Rect(gameParameters.playerX * BLOCK,
+                                                  gameParameters.playerY * BLOCK,
                                                   BLOCK,
                                                   BLOCK))
     
@@ -46,8 +45,7 @@ def drawPlayer():
 def drawCoins():
     for row in range(gameParameters.ROWS - 1):
         for col in range(gameParameters.COLUMNS):
-            if gameParameters.board[row][col] > 0:
-                # screen.blit(coin, (col * BLOCK, row * BLOCK))
+            if 0 < gameParameters.board[row][col] < gameParameters.playerID:
                 pygame.draw.circle(screen, 'Yellow', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
             
     

@@ -1,24 +1,30 @@
 import numpy as np
 
+import gameParameters
 from gameplayFunctions import *
 from gameParameters import *
 from gameWindow import *
 
-qTable = np.zeros((pow(2, ROWS*COLUMNS), COLUMNS, 3))
+qTable = {}
 pointsGottenForTheMove = 0
 
 
 def turnBoardIntoNumber():
-    currPower = (ROWS - 1) * COLUMNS - 1
+    currPower = ROWS * COLUMNS - 1
+    
+    base = gameParameters.playerID + 1
     
     boardNumber = 0
-    for row in board[:-1]:
+    for row in board:
         for column in row:
-            boardNumber += column*pow(2, currPower)
+            boardNumber += int(column*pow(base, currPower))
             currPower -= 1
-            
-    boardNumber *= pow(10, 1 + COLUMNS // 10)
-    boardNumber += gameParameters.playerPos
     
     return boardNumber
     
+    
+def updateTable():
+    boardNumber = turnBoardIntoNumber()
+    if boardNumber not in qTable:
+        qTable[boardNumber] = pointsGottenForTheMove
+        

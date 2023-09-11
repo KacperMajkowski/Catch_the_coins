@@ -1,13 +1,14 @@
 import numpy as np
 
-TURNS = 10
+TURNS = 1000
 
-ROWS = 4
-COLUMNS = 3
+ROWS = 8
+COLUMNS = 8
 
 board = np.zeros((ROWS, COLUMNS))
 
-playerPos = round(COLUMNS/2)
-playerID = 100
+playerX = round(COLUMNS/2)
+playerY = round(COLUMNS/2)
+playerID = 4
 
-board[ROWS - 1][playerPos] = playerID
+board[playerY][playerX] = playerID

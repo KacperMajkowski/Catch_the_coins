@@ -8,12 +8,15 @@ from qLearning import *
 
 updateWindow()
 for turn in range(TURNS):
-    moveCoins()
+    clearPlayer()
     changePlayerPos()
     movePlayer()
+    updateTable()
     print(qLearning.pointsGottenForTheMove)
-    createNewCoins(20)
     print(board)
+    print(turnBoardIntoNumber())
+    print(qLearning.qTable)
     updateWindow()
-    time.sleep(0.1)
+    time.sleep(0.001)
     
+print(len(qLearning.qTable))
