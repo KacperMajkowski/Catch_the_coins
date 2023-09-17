@@ -7,16 +7,16 @@ from gameWindow import *
 from qLearning import *
 
 updateWindow()
+print(board)
+print("----------------")
 for turn in range(TURNS):
+    time.sleep(0.0001)
     clearPlayer()
     changePlayerPos()
     movePlayer()
     updateTable()
-    print(qLearning.pointsGottenForTheMove)
     print(board)
-    print(turnBoardIntoNumber())
-    print(qLearning.qTable)
+    qLearning.printQtable()
+    print("----------------")
+    maybeRestart()
     updateWindow()
-    time.sleep(0.001)
-    
-print(len(qLearning.qTable))
