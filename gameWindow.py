@@ -1,6 +1,5 @@
 import pygame
 import gameParameters
-
 pygame.init()
 
 BLOCK = 50
@@ -10,10 +9,10 @@ HEIGHT = gameParameters.ROWS * BLOCK
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Cap")
-
+    
 player = pygame.Surface((BLOCK, BLOCK))
 player.fill('Green')
-
+    
 coin = pygame.Surface((BLOCK, BLOCK))
 coin.fill('Yellow')
 
@@ -43,8 +42,8 @@ def drawPlayer():
     
     
 def drawCoins():
-    for row in range(gameParameters.ROWS - 1):
-        for col in range(gameParameters.COLUMNS - 1):
+    for row in range(gameParameters.ROWS):
+        for col in range(gameParameters.COLUMNS):
             if 0 < gameParameters.board[row][col] < gameParameters.playerID:
                 pygame.draw.circle(screen, 'Yellow', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
             

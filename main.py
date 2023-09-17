@@ -6,17 +6,24 @@ from gameParameters import *
 from gameWindow import *
 from qLearning import *
 
-updateWindow()
-print(board)
-print("----------------")
 for turn in range(TURNS):
-    time.sleep(0.0001)
-    clearPlayer()
     changePlayerPos()
     movePlayer()
     updateTable()
-    print(board)
-    qLearning.printQtable()
-    print("----------------")
-    maybeRestart()
+    lowerExploRate()
+    if turn % 1000 == 0:
+        print(turn)
+    if turn > 10000:
+        qLearning.exploreRate = 0
+        time.sleep(0.1)
+        print(board)
+        print(qLearning.getBestNextMoveValue(board))
+        print("Explo rate:", qLearning.exploreRate)
+        print("Move:", qLearning.move)
+        # qLearning.printQtable()
+        print("----------------")
     updateWindow()
+    maybeRestart()
+    
+    
+    
