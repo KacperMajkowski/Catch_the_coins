@@ -56,10 +56,7 @@ def restartBoard():
     gameParameters.playerX = COLUMNS - 1
     gameParameters.playerY = ROWS - 1
 
-    board[playerY][playerX] = playerID
-    board[0][0] = 1
-    board[0][ROWS - 1] = 40
-    board[COLUMNS - 1][0] = 40
+    setUpBoard()
     
     qLearning.previousBoard = board
     

@@ -51,12 +51,15 @@ def getBestNextMoveValue(oldBoard):
 
 
 def getPointsForTheMove():
-    if qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] == 0:
-        return -0.1
-    elif turnBoardIntoNumber(qLearning.previousBoard) == turnBoardIntoNumber(gameParameters.board):
-        return -100
-    else:
-        return qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
+    squareNumber = qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
+    if turnBoardIntoNumber(qLearning.previousBoard) == turnBoardIntoNumber(gameParameters.board):  # Move into a wall
+        return -100000
+    elif squareNumber == 0:  # Empty square
+        return -1
+    elif squareNumber < 10:  # Coin positive
+        return 100 * qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
+    elif squareNumber < 20:  # Coin negative
+        return -100 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
 
 
 def calculateNewQvalue(boardMovePair):
@@ -75,7 +78,7 @@ def updateTable():
     
     
 def lowerExploRate():
-    qLearning.exploreRate = qLearning.exploreRate * 0.9999
+    qLearning.exploreRate = qLearning.exploreRate * 0.99999
 
 
 def printQtable():

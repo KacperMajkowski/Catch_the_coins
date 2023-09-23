@@ -13,7 +13,8 @@ for turn in range(TURNS):
     lowerExploRate()
     if turn % 1000 == 0:
         print(turn)
-    if turn > 10000:
+        print("Explo rate:", qLearning.exploreRate)
+    if turn > 100000:
         qLearning.exploreRate = 0
         time.sleep(0.1)
         print(board)

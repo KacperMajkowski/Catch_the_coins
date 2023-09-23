@@ -44,7 +44,9 @@ def drawPlayer():
 def drawCoins():
     for row in range(gameParameters.ROWS):
         for col in range(gameParameters.COLUMNS):
-            if 0 < gameParameters.board[row][col] < gameParameters.playerID:
+            if 0 < gameParameters.board[row][col] < 10:
                 pygame.draw.circle(screen, 'Yellow', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
+            if 10 <= gameParameters.board[row][col] < 20:
+                pygame.draw.circle(screen, 'Red', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
             
     

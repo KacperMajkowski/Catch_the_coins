@@ -9,12 +9,23 @@ board = np.zeros((ROWS, COLUMNS))
 
 playerX = COLUMNS - 1
 playerY = ROWS - 1
-playerID = 50
+playerID = 100
 
-board[playerY][playerX] = playerID
-board[0][0] = 20
-board[0][ROWS - 1] = 40
-board[COLUMNS - 1][0] = 10
 
+def setUpBoard():
+    board[playerY][playerX] = playerID
+    board[0][0] = 9
+    board[1][0] = 19
+    board[1][1] = 19
+    board[1][2] = 19
+    board[4][2] = 19
+    board[4][3] = 19
+    board[4][4] = 19
+    board[6][5] = 19
+    board[6][6] = 19
+    board[6][7] = 19
+    
+    
+setUpBoard()
 endX = 0
-endY = COLUMNS - 1
+endY = 0
