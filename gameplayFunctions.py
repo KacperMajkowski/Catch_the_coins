@@ -11,19 +11,21 @@ def changePlayerPos():
     oldPlayerY = gameParameters.playerY
     shouldExplore = random.randint(1, 101)
     if shouldExplore < qLearning.exploreRate*100:
-        toss = random.randint(1, 101)
-        if toss < 25:
+        toss = random.randint(1, 100)
+        if toss <= 25:
             gameParameters.playerY = max(0, gameParameters.playerY - 1)  # Move up
             qLearning.move = 'up'
-        elif toss < 50:
+        elif toss <= 50:
             gameParameters.playerX = min(gameParameters.COLUMNS - 1, gameParameters.playerX + 1)  # Move right
             qLearning.move = 'right'
-        elif toss < 75:
+        elif toss <= 75:
             gameParameters.playerY = min(gameParameters.ROWS - 1, gameParameters.playerY + 1)  # Move down
             qLearning.move = 'down'
-        else:
+        elif toss <= 100:
             gameParameters.playerX = max(0, gameParameters.playerX - 1)  # Move left
             qLearning.move = 'left'
+        else:
+            print("ERROR toss =", toss)
     else:
         bestMove = qLearning.getBestNextMove(board)
         if bestMove == 'up':
@@ -35,9 +37,11 @@ def changePlayerPos():
         elif bestMove == 'down':
             gameParameters.playerY = min(gameParameters.ROWS - 1, gameParameters.playerY + 1)  # Move down
             qLearning.move = 'down'
-        else:
+        elif bestMove == 'left':
             gameParameters.playerX = max(0, gameParameters.playerX - 1)  # Move left
             qLearning.move = 'left'
+        else:
+            print("ERROR bestMove=", bestMove)
             
     board[oldPlayerY][oldPlayerX] = 0
         
@@ -49,15 +53,18 @@ def movePlayer():
     
 def maybeRestart():
     if gameParameters.playerY == gameParameters.endY and gameParameters.playerX == gameParameters.endX:
+        qLearning.updateTable()
         restartBoard()
     
     
 def restartBoard():
+    gameParameters.board[gameParameters.playerY][gameParameters.playerX] = 0
+    
     gameParameters.playerX = COLUMNS - 1
     gameParameters.playerY = ROWS - 1
 
     setUpBoard()
     
-    qLearning.previousBoard = board
+    qLearning.previousBoard = gameParameters.board.copy()
     
 

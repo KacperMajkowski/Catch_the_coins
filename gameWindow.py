@@ -21,6 +21,7 @@ def updateWindow():
     clearScreen()
     drawCoins()
     drawPlayer()
+    drawEnd()
     
     for event in pygame.event.get():
         if event.type == pygame.quit:
@@ -48,5 +49,12 @@ def drawCoins():
                 pygame.draw.circle(screen, 'Yellow', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
             if 10 <= gameParameters.board[row][col] < 20:
                 pygame.draw.circle(screen, 'Red', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
+                
+
+def drawEnd():
+    pygame.draw.rect(screen, 'Yellow', pygame.Rect(gameParameters.endX * BLOCK,
+                                                   gameParameters.endY * BLOCK,
+                                                   BLOCK,
+                                                   BLOCK))
             
     

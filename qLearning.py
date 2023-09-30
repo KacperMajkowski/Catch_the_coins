@@ -1,4 +1,6 @@
+import pickle
 import numpy as np
+
 
 import gameParameters
 import qLearning
@@ -7,11 +9,28 @@ from gameParameters import *
 from gameWindow import *
 
 qTable = {}
+
+
+def saveTable():
+    file = open('qTable.txt', 'wb')
+    pickle.dump(qLearning.qTable, file)
+    file.close()
+
+
+def loadTable():
+    file = open('qTable.txt', 'rb')
+    qLearning.qTable = pickle.load(file)
+    file.close()
+
+
 move = 'up'
 previousBoard = gameParameters.board.copy()
-learningRate = 0.9
+learningRate = 0.75
 discountRate = 0.99
+targetMoves = 500000
 exploreRate = 1
+targetExploreRate = 0.3
+exploreRateMultiplier = pow(targetExploreRate, 1/targetMoves)
 
 
 def turnBoardIntoNumber(B):
@@ -26,6 +45,17 @@ def turnBoardIntoNumber(B):
             currPower -= 1
     
     return boardNumber
+
+
+def getNextMoves(oldBoard):
+    boardUp = boardRight = boardDown = boardLeft = 0
+    boards = [boardUp, boardRight, boardDown, boardLeft]
+    moves = ['up', 'right', 'down', 'left']
+    for direction in range(4):
+        if (turnBoardIntoNumber(oldBoard), moves[direction]) in qTable:
+            boards[direction] = qTable[(turnBoardIntoNumber(oldBoard), moves[direction])]
+    
+    return boards
 
 
 def getBestNextMove(oldBoard):
@@ -59,7 +89,9 @@ def getPointsForTheMove():
     elif squareNumber < 10:  # Coin positive
         return 100 * qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
     elif squareNumber < 20:  # Coin negative
-        return -100 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
+        return -1000 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
+    elif squareNumber == 20:  # End tile
+        return 1000
 
 
 def calculateNewQvalue(boardMovePair):
@@ -78,7 +110,7 @@ def updateTable():
     
     
 def lowerExploRate():
-    qLearning.exploreRate = qLearning.exploreRate * 0.99999
+    qLearning.exploreRate = qLearning.exploreRate * exploreRateMultiplier
 
 
 def printQtable():
