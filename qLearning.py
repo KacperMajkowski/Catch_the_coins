@@ -4,6 +4,7 @@ import numpy as np
 
 import gameParameters
 import qLearning
+import test
 from gameplayFunctions import *
 from gameParameters import *
 from gameWindow import *
@@ -25,12 +26,13 @@ def loadTable():
 
 move = 'up'
 previousBoard = gameParameters.board.copy()
-learningRate = 0.75
+learningRate = 0.95
 discountRate = 0.99
-targetMoves = 500000
+targetMoves = 10000
 exploreRate = 1
-targetExploreRate = 0.3
-exploreRateMultiplier = pow(targetExploreRate, 1/targetMoves)
+targetExploreRate = 0.01
+# exploreRateMultiplier = pow(targetExploreRate, 1/targetMoves)
+exploreRateMultiplier = (exploreRate - targetExploreRate)/targetMoves
 
 
 def turnBoardIntoNumber(B):
@@ -82,16 +84,25 @@ def getBestNextMoveValue(oldBoard):
 
 def getPointsForTheMove():
     squareNumber = qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
+    points = 0
     if turnBoardIntoNumber(qLearning.previousBoard) == turnBoardIntoNumber(gameParameters.board):  # Move into a wall
-        return -100000
+        points = -10
+        # print("Moved int a wall")
     elif squareNumber == 0:  # Empty square
-        return -1
+        points = 0
     elif squareNumber < 10:  # Coin positive
-        return 100 * qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
+        points = 100 * qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX]
     elif squareNumber < 20:  # Coin negative
-        return -1000 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
+        points = -1000 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
     elif squareNumber == 20:  # End tile
-        return 1000
+        points = 1000
+    elif squareNumber < 30:  # Key (like empty square)
+        points = -1
+    elif squareNumber < 40:  # KeyCoin negative
+        points = -1000 * (qLearning.previousBoard[gameParameters.playerY][gameParameters.playerX] - 10)
+
+    test.addPoints(points)
+    return points
 
 
 def calculateNewQvalue(boardMovePair):
@@ -110,7 +121,8 @@ def updateTable():
     
     
 def lowerExploRate():
-    qLearning.exploreRate = qLearning.exploreRate * exploreRateMultiplier
+    # qLearning.exploreRate = qLearning.exploreRate * exploreRateMultiplier
+    qLearning.exploreRate = qLearning.exploreRate - exploreRateMultiplier
 
 
 def printQtable():

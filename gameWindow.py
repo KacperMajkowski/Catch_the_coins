@@ -19,7 +19,7 @@ coin.fill('Yellow')
 
 def updateWindow():
     clearScreen()
-    drawCoins()
+    drawObjects()
     drawPlayer()
     drawEnd()
     
@@ -42,13 +42,17 @@ def drawPlayer():
                                                   BLOCK))
     
     
-def drawCoins():
+def drawObjects():
     for row in range(gameParameters.ROWS):
         for col in range(gameParameters.COLUMNS):
             if 0 < gameParameters.board[row][col] < 10:
                 pygame.draw.circle(screen, 'Yellow', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
             if 10 <= gameParameters.board[row][col] < 20:
                 pygame.draw.circle(screen, 'Red', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
+            if 20 < gameParameters.board[row][col] < 30:
+                pygame.draw.circle(screen, 'Purple', ((col + 0.5)*BLOCK, (row+0.5)*BLOCK), BLOCK/2, 0)
+            if 30 < gameParameters.board[row][col] < 40:
+                pygame.draw.rect(screen, 'Purple', pygame.Rect(col * BLOCK, row * BLOCK, BLOCK, BLOCK))
                 
 
 def drawEnd():
